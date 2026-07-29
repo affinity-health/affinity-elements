@@ -22,4 +22,4 @@ jobs:
       - run: vp check
       - run: vp test
       - run: vp pack
-      - run: bun scripts/check-package.ts
+      - run: node scripts/check-package.mjs

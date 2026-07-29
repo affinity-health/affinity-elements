@@ -61,7 +61,7 @@
     "check": "vp check",
     "test": "vp test",
     "verify": "bun run check && bun run test && bun run build && bun run package:check",
-    "package:check": "bun scripts/check-package.ts",
+    "package:check": "node scripts/check-package.mjs",
     "prepublishOnly": "bun run verify"
   },
   "devDependencies": {
