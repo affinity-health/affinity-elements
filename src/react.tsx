@@ -30,21 +30,27 @@ export function PrescriptionComposer({
   className,
   onClose,
   onDraftCreated,
+  onLoadError,
+  onReady,
   onSubmitted,
 }: Readonly<{
   className?: string;
   onClose?: () => void;
   onDraftCreated?: (event: { prescriptionId: string }) => void;
+  onLoadError?: (error: Error) => void;
+  onReady?: () => void;
   onSubmitted?: (event: { prescriptionId: string; status: string }) => void;
 }>) {
   const affinity = useContext(AffinityContext);
   const container = useRef<HTMLDivElement>(null);
-  const callbacks = useRef({ onClose, onDraftCreated, onSubmitted });
-  callbacks.current = { onClose, onDraftCreated, onSubmitted };
+  const callbacks = useRef({ onClose, onDraftCreated, onLoadError, onReady, onSubmitted });
+  callbacks.current = { onClose, onDraftCreated, onLoadError, onReady, onSubmitted };
 
   useEffect(() => {
     if (!affinity || !container.current) return;
     const mounted = affinity.create("prescription-composer").mount(container.current, {
+      onLoadError: (error) => callbacks.current.onLoadError?.(error),
+      onReady: () => callbacks.current.onReady?.(),
       onEvent: (event: AffinityElementEvent) => {
         if (event.type === "component.close") callbacks.current.onClose?.();
         if (event.type === "prescription.draft_created") {

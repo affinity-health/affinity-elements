@@ -45,6 +45,12 @@ const affinity = initializeAffinity({
 
 const composer = affinity.create("prescription-composer");
 const mounted = composer.mount("#affinity-prescription-composer", {
+  onLoadError(error) {
+    console.error(error);
+  },
+  onReady() {
+    console.log("Affinity is ready");
+  },
   onEvent(event) {
     if (event.type === "prescription.draft_created") {
       console.log(event.prescriptionId);
@@ -64,6 +70,12 @@ export function Prescribe() {
   return (
     <AffinityProvider fetchClientSecret={fetchClientSecret}>
       <PrescriptionComposer
+        onLoadError={(error) => {
+          console.error(error);
+        }}
+        onReady={() => {
+          console.log("Affinity is ready");
+        }}
         onDraftCreated={({ prescriptionId }) => {
           console.log(prescriptionId);
         }}

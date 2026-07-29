@@ -27,6 +27,8 @@ export type AffinityElementsOptions = {
 
 export type AffinityElementMountOptions = {
   onEvent?: (event: AffinityElementEvent) => void;
+  onLoadError?: (error: Error) => void;
+  onReady?: () => void;
 };
 
 type AffinityFrameMessage =
@@ -100,8 +102,14 @@ export function initializeAffinity(options: AffinityElementsOptions) {
                 },
                 connectUrl.origin,
               );
-            } catch {
+              mountOptions.onReady?.();
+            } catch (error) {
               initialized = false;
+              mountOptions.onLoadError?.(
+                error instanceof Error
+                  ? error
+                  : new Error("The secure Affinity session could not be created."),
+              );
               frame.contentWindow?.postMessage(
                 {
                   message: "The secure Affinity session could not be created.",
