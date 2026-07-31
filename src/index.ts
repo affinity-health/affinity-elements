@@ -1,7 +1,6 @@
-export type AffinityElementEvent =
-  | { prescriptionId: string; type: "prescription.draft_created" }
-  | { prescriptionId: string; status: string; type: "prescription.submitted" }
-  | { type: "component.close" };
+import { isAffinityFrameMessage, type AffinityElementEvent } from "./messages.js";
+
+export type { AffinityElementEvent } from "./messages.js";
 
 export type AffinityAppearance = {
   theme?: "dark" | "light";
@@ -30,11 +29,6 @@ export type AffinityElementMountOptions = {
   onLoadError?: (error: Error) => void;
   onReady?: () => void;
 };
-
-type AffinityFrameMessage =
-  | { source: "affinity"; type: "affinity.ready" }
-  | { height: number; source: "affinity"; type: "affinity.resize" }
-  | { event: AffinityElementEvent; source: "affinity"; type: "affinity.event" };
 
 export function initializeAffinity(options: AffinityElementsOptions) {
   const connectUrl = new URL(options.connectUrl ?? "https://connect.joinaffinityai.com");
@@ -134,17 +128,4 @@ export function initializeAffinity(options: AffinityElementsOptions) {
       };
     },
   };
-}
-
-function isAffinityFrameMessage(value: unknown): value is AffinityFrameMessage {
-  return (
-    typeof value === "object" &&
-    value !== null &&
-    "source" in value &&
-    value.source === "affinity" &&
-    "type" in value &&
-    (value.type === "affinity.ready" ||
-      value.type === "affinity.event" ||
-      (value.type === "affinity.resize" && "height" in value && typeof value.height === "number"))
-  );
 }

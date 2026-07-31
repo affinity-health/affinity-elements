@@ -52,8 +52,8 @@ const mounted = composer.mount("#affinity-prescription-composer", {
     console.log("Affinity is ready");
   },
   onEvent(event) {
-    if (event.type === "prescription.draft_created") {
-      console.log(event.prescriptionId);
+    if (event.type === "order.submitted") {
+      console.log(event.orderId, event.prescriptionId, event.runId);
     }
   },
 });
@@ -78,6 +78,12 @@ export function Prescribe() {
         }}
         onDraftCreated={({ prescriptionId }) => {
           console.log(prescriptionId);
+        }}
+        onPrescriptionSigned={({ prescriptionId }) => {
+          console.log(prescriptionId);
+        }}
+        onOrderSubmitted={({ orderId, prescriptionId, runId }) => {
+          console.log(orderId, prescriptionId, runId);
         }}
       />
     </AffinityProvider>
@@ -131,8 +137,8 @@ accept arbitrary CSS, selectors, scripts, or remote font URLs.
 The prescription composer can send:
 
 - `prescription.draft_created`;
-- `prescription.submitted`;
-- `component.close`.
+- `prescription.signed`;
+- `order.submitted`.
 
 Use these events for interface updates. Use signed webhooks for authoritative state.
 

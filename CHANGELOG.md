@@ -7,6 +7,21 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-07-31
+
+### Added
+
+- Added exact runtime validation for frame messages and event payloads.
+- Added GitHub Release-driven npm trusted publishing with provenance.
+
+### Changed
+
+- Aligned the vanilla and React event contracts with Connect's draft, signature, and order events.
+
+### Removed
+
+- Removed obsolete prescription-submitted and component-close events without compatibility aliases.
+
 ## [0.1.0] - 2026-07-29
 
 ### Added
@@ -17,5 +32,6 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Added ready and session-load error callbacks.
 - Added the exact-origin iframe handshake and bounded resize handling.
 
-[Unreleased]: https://github.com/affinity-health/affinity-elements/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/affinity-health/affinity-elements/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/affinity-health/affinity-elements/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/affinity-health/affinity-elements/releases/tag/v0.1.0

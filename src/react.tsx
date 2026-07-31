@@ -28,23 +28,35 @@ export function AffinityProvider({
 
 export function PrescriptionComposer({
   className,
-  onClose,
   onDraftCreated,
   onLoadError,
+  onOrderSubmitted,
+  onPrescriptionSigned,
   onReady,
-  onSubmitted,
 }: Readonly<{
   className?: string;
-  onClose?: () => void;
   onDraftCreated?: (event: { prescriptionId: string }) => void;
   onLoadError?: (error: Error) => void;
+  onOrderSubmitted?: (event: { orderId: string; prescriptionId: string; runId: string }) => void;
+  onPrescriptionSigned?: (event: { prescriptionId: string }) => void;
   onReady?: () => void;
-  onSubmitted?: (event: { prescriptionId: string; status: string }) => void;
 }>) {
   const affinity = useContext(AffinityContext);
   const container = useRef<HTMLDivElement>(null);
-  const callbacks = useRef({ onClose, onDraftCreated, onLoadError, onReady, onSubmitted });
-  callbacks.current = { onClose, onDraftCreated, onLoadError, onReady, onSubmitted };
+  const callbacks = useRef({
+    onDraftCreated,
+    onLoadError,
+    onOrderSubmitted,
+    onPrescriptionSigned,
+    onReady,
+  });
+  callbacks.current = {
+    onDraftCreated,
+    onLoadError,
+    onOrderSubmitted,
+    onPrescriptionSigned,
+    onReady,
+  };
 
   useEffect(() => {
     if (!affinity || !container.current) return;
@@ -52,14 +64,17 @@ export function PrescriptionComposer({
       onLoadError: (error) => callbacks.current.onLoadError?.(error),
       onReady: () => callbacks.current.onReady?.(),
       onEvent: (event: AffinityElementEvent) => {
-        if (event.type === "component.close") callbacks.current.onClose?.();
         if (event.type === "prescription.draft_created") {
           callbacks.current.onDraftCreated?.({ prescriptionId: event.prescriptionId });
         }
-        if (event.type === "prescription.submitted") {
-          callbacks.current.onSubmitted?.({
+        if (event.type === "prescription.signed") {
+          callbacks.current.onPrescriptionSigned?.({ prescriptionId: event.prescriptionId });
+        }
+        if (event.type === "order.submitted") {
+          callbacks.current.onOrderSubmitted?.({
+            orderId: event.orderId,
             prescriptionId: event.prescriptionId,
-            status: event.status,
+            runId: event.runId,
           });
         }
       },
