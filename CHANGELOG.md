@@ -7,6 +7,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-07-31
+
+### Changed
+
+- Promoted the verified Connect event and frame-validation contract to stable after npm registry
+  and Production-hosted Test integration checks.
+
 ## [0.2.0] - 2026-07-31
 
 ### Added
@@ -32,6 +39,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Added ready and session-load error callbacks.
 - Added the exact-origin iframe handshake and bounded resize handling.
 
-[Unreleased]: https://github.com/affinity-health/affinity-elements/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/affinity-health/affinity-elements/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/affinity-health/affinity-elements/compare/v0.2.0...v1.0.0
 [0.2.0]: https://github.com/affinity-health/affinity-elements/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/affinity-health/affinity-elements/releases/tag/v0.1.0
