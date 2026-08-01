@@ -67,7 +67,11 @@ describe("initializeAffinity", () => {
 
     await harness.receive({
       data: {
-        event: { prescriptionId: "rx_test", type: "prescription.signed" },
+        event: {
+          orderId: "ord_test",
+          prescriptionIds: ["rx_one", "rx_two"],
+          type: "order.signed",
+        },
         source: "affinity",
         type: "affinity.event",
       },
@@ -86,8 +90,9 @@ describe("initializeAffinity", () => {
 
     expect(onEvent).toHaveBeenCalledTimes(1);
     expect(onEvent).toHaveBeenCalledWith({
-      prescriptionId: "rx_test",
-      type: "prescription.signed",
+      orderId: "ord_test",
+      prescriptionIds: ["rx_one", "rx_two"],
+      type: "order.signed",
     });
   });
 });

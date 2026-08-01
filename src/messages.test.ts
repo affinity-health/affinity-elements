@@ -7,20 +7,27 @@ describe("Affinity frame messages", () => {
     { source: "affinity", type: "affinity.ready" },
     { height: 720, source: "affinity", type: "affinity.resize" },
     {
-      event: { prescriptionId: "rx_test", type: "prescription.draft_created" },
-      source: "affinity",
-      type: "affinity.event",
-    },
-    {
-      event: { prescriptionId: "rx_test", type: "prescription.signed" },
+      event: {
+        orderId: "ord_test",
+        prescriptionIds: ["rx_one", "rx_two"],
+        type: "order.draft_created",
+      },
       source: "affinity",
       type: "affinity.event",
     },
     {
       event: {
         orderId: "ord_test",
-        prescriptionId: "rx_test",
-        runId: "run_test",
+        prescriptionIds: ["rx_one", "rx_two"],
+        type: "order.signed",
+      },
+      source: "affinity",
+      type: "affinity.event",
+    },
+    {
+      event: {
+        orderId: "ord_test",
+        fulfillmentIds: ["ord_fulfillment_one", "ord_fulfillment_two"],
         type: "order.submitted",
       },
       source: "affinity",
@@ -46,7 +53,7 @@ describe("Affinity frame messages", () => {
       type: "affinity.event",
     },
     {
-      event: { orderId: "ord_test", prescriptionId: "rx_test", type: "order.submitted" },
+      event: { orderId: "ord_test", type: "order.submitted" },
       source: "affinity",
       type: "affinity.event",
     },

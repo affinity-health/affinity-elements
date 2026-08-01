@@ -1,10 +1,9 @@
 export type AffinityElementEvent =
-  | { prescriptionId: string; type: "prescription.draft_created" }
-  | { prescriptionId: string; type: "prescription.signed" }
+  | { orderId: string; prescriptionIds: string[]; type: "order.draft_created" }
+  | { orderId: string; prescriptionIds: string[]; type: "order.signed" }
   | {
+      fulfillmentIds: string[];
       orderId: string;
-      prescriptionId: string;
-      runId: string;
       type: "order.submitted";
     };
 
@@ -24,15 +23,17 @@ export function isAffinityFrameMessage(value: unknown): value is AffinityFrameMe
 
 function isAffinityElementEvent(value: unknown): value is AffinityElementEvent {
   if (!isRecord(value) || typeof value.type !== "string") return false;
-  if (value.type === "prescription.draft_created" || value.type === "prescription.signed") {
-    return isIdentifier(value.prescriptionId);
+  if (value.type === "order.draft_created" || value.type === "order.signed") {
+    return isIdentifier(value.orderId) && isIdentifierArray(value.prescriptionIds);
   }
   if (value.type === "order.submitted") {
-    return (
-      isIdentifier(value.orderId) && isIdentifier(value.prescriptionId) && isIdentifier(value.runId)
-    );
+    return isIdentifier(value.orderId) && isIdentifierArray(value.fulfillmentIds);
   }
   return false;
+}
+
+function isIdentifierArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.length > 0 && value.every(isIdentifier);
 }
 
 function isIdentifier(value: unknown): value is string {

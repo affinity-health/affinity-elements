@@ -28,33 +28,33 @@ export function AffinityProvider({
 
 export function PrescriptionComposer({
   className,
-  onDraftCreated,
   onLoadError,
+  onOrderDraftCreated,
+  onOrderSigned,
   onOrderSubmitted,
-  onPrescriptionSigned,
   onReady,
 }: Readonly<{
   className?: string;
-  onDraftCreated?: (event: { prescriptionId: string }) => void;
   onLoadError?: (error: Error) => void;
-  onOrderSubmitted?: (event: { orderId: string; prescriptionId: string; runId: string }) => void;
-  onPrescriptionSigned?: (event: { prescriptionId: string }) => void;
+  onOrderDraftCreated?: (event: { orderId: string; prescriptionIds: string[] }) => void;
+  onOrderSigned?: (event: { orderId: string; prescriptionIds: string[] }) => void;
+  onOrderSubmitted?: (event: { fulfillmentIds: string[]; orderId: string }) => void;
   onReady?: () => void;
 }>) {
   const affinity = useContext(AffinityContext);
   const container = useRef<HTMLDivElement>(null);
   const callbacks = useRef({
-    onDraftCreated,
     onLoadError,
+    onOrderDraftCreated,
+    onOrderSigned,
     onOrderSubmitted,
-    onPrescriptionSigned,
     onReady,
   });
   callbacks.current = {
-    onDraftCreated,
     onLoadError,
+    onOrderDraftCreated,
+    onOrderSigned,
     onOrderSubmitted,
-    onPrescriptionSigned,
     onReady,
   };
 
@@ -64,17 +64,22 @@ export function PrescriptionComposer({
       onLoadError: (error) => callbacks.current.onLoadError?.(error),
       onReady: () => callbacks.current.onReady?.(),
       onEvent: (event: AffinityElementEvent) => {
-        if (event.type === "prescription.draft_created") {
-          callbacks.current.onDraftCreated?.({ prescriptionId: event.prescriptionId });
+        if (event.type === "order.draft_created") {
+          callbacks.current.onOrderDraftCreated?.({
+            orderId: event.orderId,
+            prescriptionIds: event.prescriptionIds,
+          });
         }
-        if (event.type === "prescription.signed") {
-          callbacks.current.onPrescriptionSigned?.({ prescriptionId: event.prescriptionId });
+        if (event.type === "order.signed") {
+          callbacks.current.onOrderSigned?.({
+            orderId: event.orderId,
+            prescriptionIds: event.prescriptionIds,
+          });
         }
         if (event.type === "order.submitted") {
           callbacks.current.onOrderSubmitted?.({
+            fulfillmentIds: event.fulfillmentIds,
             orderId: event.orderId,
-            prescriptionId: event.prescriptionId,
-            runId: event.runId,
           });
         }
       },
