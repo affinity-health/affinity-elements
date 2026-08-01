@@ -1,6 +1,6 @@
 {
   "name": "@affinity-health/elements",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Secure embedded clinical components for the Affinity platform API.",
   "keywords": [
     "affinity",

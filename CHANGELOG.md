@@ -7,6 +7,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-08-01
+
 ### Changed
 
 - Replaced single-prescription events with patient-order events that include every prescription or
@@ -44,7 +46,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Added ready and session-load error callbacks.
 - Added the exact-origin iframe handshake and bounded resize handling.
 
-[Unreleased]: https://github.com/affinity-health/affinity-elements/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/affinity-health/affinity-elements/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/affinity-health/affinity-elements/compare/v1.0.0...v2.0.0
 [1.0.0]: https://github.com/affinity-health/affinity-elements/compare/v0.2.0...v1.0.0
 [0.2.0]: https://github.com/affinity-health/affinity-elements/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/affinity-health/affinity-elements/releases/tag/v0.1.0
