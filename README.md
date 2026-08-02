@@ -134,13 +134,20 @@ accept arbitrary CSS, selectors, scripts, or remote font URLs.
 
 ## Events
 
-The prescription composer can send:
+The prescription composer sends patient-order events:
 
-- `order.draft_created`;
-- `order.signed`;
-- `order.submitted`.
+| Event                 | Payload                      | Meaning                                                                  |
+| --------------------- | ---------------------------- | ------------------------------------------------------------------------ |
+| `order.draft_created` | `orderId`, `prescriptionIds` | Affinity created one patient order and its unsigned prescription drafts. |
+| `order.signed`        | `orderId`, `prescriptionIds` | The provider signed every prescription in the order inside Affinity.     |
+| `order.submitted`     | `orderId`, `fulfillmentIds`  | Affinity submitted one pharmacy fulfillment for each prescription.       |
 
-Use these events for interface updates. Use signed webhooks for authoritative state.
+Arrays preserve the complete order membership. Do not assume an order contains one prescription or
+one fulfillment. Use browser events for interface updates. Use signed webhooks and the Order API
+for authoritative state.
+
+Destroy the mounted component when its owning view unmounts. Create a new component session before
+the next mount. Client secrets are single-use and cannot refresh or reconnect a previous iframe.
 
 ## Security
 
